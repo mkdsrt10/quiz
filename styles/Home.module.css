@@ -85,10 +85,18 @@
 		width: 60vw;
 		margin-left: 15vw;
 	}
+	.button {
+		width: 60vw;
+		margin: 5vh 15vw;
+	}
 }
 @media (max-width: 550px) {
 	.codeContainer input {
 		width: 80vw;
 		margin-left: 7.5vw;
+	}
+	.button {
+		width: 70vw;
+		margin: 5vh 10vw;
 	}
 }
