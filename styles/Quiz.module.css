@@ -1,0 +1,106 @@
+.container {
+	width: 100vw;
+	color: #414042;
+}
+.header {
+	height: 15vh;
+	width: 100vw;
+	background-color: rgba(255, 211, 49, 1);
+}
+.headerContainer {
+	height: 15vh;
+	width: 86vw;
+	margin: auto;
+	display: flex;
+}
+.headerContainer p {
+	margin: 0;
+	padding: 0;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	font-size: 1.5rem;
+	font-family: 'Poppins';
+}
+.headerContainer p li {
+	list-style: none;
+}
+.headerContainer p li:hover {
+	font-weight: 500;
+}
+.board {
+	width: 86vw;
+	margin: auto;
+	margin-top: 3rem;
+	display: flex;
+	flex-direction: row;
+	/* height: 50vh; */
+	/* border: 1px solid black; */
+}
+.board div {
+	flex: 1;
+	/* border: 1px solid black; */
+}
+.playerCont {
+	display: grid;
+}
+.videoPlayer {
+	margin: auto;
+}
+.player {
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+}
+.question {
+	padding: 1.5rem;
+	padding-top: 0rem;
+	word-wrap: normal;
+	font-size: 1.2rem;
+}
+
+.question div {
+	margin-bottom: 1rem;
+	color: #414042;
+	font-weight: 500;
+}
+.time {
+	margin-bottom: 2rem;
+	font-size: 1rem;
+	font-weight: 300;
+}
+.option input {
+	display: none;
+}
+.option {
+	width: 100%;
+}
+.option label {
+	display: block;
+	width: 100%;
+}
+.option p {
+	margin: 0;
+	padding-left: 1rem;
+	border-radius: 10px;
+	width: 90%;
+}
+.p {
+	border: 1px solid gray;
+	padding: 0.3rem 1rem;
+}
+.option input:checked + .p {
+	background-color: #0670ed;
+	border: 1px solid #0670ed;
+	color: white;
+	font-weight: 500;
+}
+
+@media (max-width: 800px) {
+	.board {
+		flex-direction: column;
+	}
+	.board div {
+		flex: 0;
+	}
+}
