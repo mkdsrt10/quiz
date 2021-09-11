@@ -1,6 +1,7 @@
 .container {
-	width: 100vw;
+	/* width: 100vw; */
 	color: #414042;
+	overflow-x: hidden !important;
 }
 .header {
 	height: 15vh;
@@ -64,10 +65,19 @@
 	color: #414042;
 	font-weight: 500;
 }
+.questionCont label {
+	font-weight: 600;
+}
 .time {
 	margin-bottom: 2rem;
 	font-size: 1rem;
 	font-weight: 300;
+	display: flex;
+}
+.time p {
+	font-weight: 400;
+	margin: 0;
+	flex: 1;
 }
 .option input {
 	display: none;
@@ -89,11 +99,28 @@
 	border: 1px solid gray;
 	padding: 0.3rem 1rem;
 }
+
+.p:hover {
+	border: 1px solid #0670ed;
+}
 .option input:checked + .p {
 	background-color: #0670ed;
 	border: 1px solid #0670ed;
 	color: white;
 	font-weight: 500;
+}
+
+.textEditor {
+	width: 86vw;
+	margin: 1rem auto;
+	padding-left: 1rem;
+	border-top: 1px solid gray;
+	margin-bottom: 3rem;
+}
+.textEditor textarea {
+	width: 100%;
+	font-size: 1rem;
+	padding: 0.5rem;
 }
 
 @media (max-width: 800px) {
@@ -102,5 +129,8 @@
 	}
 	.board div {
 		flex: 0;
+	}
+	.time {
+		padding-top: 1rem;
 	}
 }

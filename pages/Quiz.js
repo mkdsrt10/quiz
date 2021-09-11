@@ -2,10 +2,16 @@ import Link from 'next/dist/client/link';
 import { useEffect, useState } from 'react';
 import classes from '../styles/Quiz.module.css';
 import YouTube from 'react-youtube';
+import Image from 'next/dist/client/image';
+const myLoader = ({ src }) => {
+	return `${src}`;
+};
 
 const Quiz = () => {
 	const [data, setData] = useState();
 	const [ans, setAns] = useState('');
+	const [ready, setReady] = useState(false);
+	const [showVideo, setShowVideo] = useState(false);
 	const [ques, setQues] = useState([
 		{
 			id: 1,
@@ -27,6 +33,7 @@ const Quiz = () => {
 	useEffect(() => {
 		var key = 'AIzaSyBqehmFSfiommirnXq1ZXcYHgh_zikOvuo';
 		var channelId = 'UCXw0dnfXlCMExVOUpK-iOWg';
+		setReady(true);
 		fetch(
 			`${
 				'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' +
@@ -40,6 +47,15 @@ const Quiz = () => {
 				setData(data), console.log(data, ques);
 			});
 	}, []);
+
+	if (ready) {
+		var player = document.getElementById('liveVideoContainer');
+		if (showVideo) {
+			player.style.flex = 1;
+		} else {
+			player.style.flex = 0;
+		}
+	}
 	return (
 		<div className={classes.container}>
 			<div className={classes.header}>
@@ -58,20 +74,49 @@ const Quiz = () => {
 			</div>
 
 			<div className={classes.board}>
-				<div className={classes.playerCont}>
-					<YouTube
-						videoId={'dKg8jbk8wGM'}
-						className={classes.player}
-						opt={opt}
-					/>
+				<div className={classes.playerCont} id='liveVideoContainer'>
+					{showVideo && (
+						<YouTube
+							videoId={'dKg8jbk8wGM'}
+							className={classes.player}
+							opt={opt}
+							id='liveVideo'
+						/>
+					)}
 				</div>
 				<div className={classes.question}>
 					<div className={classes.time}>
+						<p>
+							<input
+								type='checkbox'
+								name='video'
+								id='video'
+								onChange={() => {
+									if (showVideo) {
+										setShowVideo(false);
+									} else {
+										setShowVideo(true);
+									}
+								}}
+								defaultChecked
+							/>
+							<label htmlFor='video'>HIDE VIDEO</label>
+						</p>
 						<p style={{ textAlign: 'right', margin: 0 }}>TIME:</p>
 					</div>
 					<div className={classes.questionCont}>
-						<div>
+						<div style={{ marginBottom: '2rem' }}>
 							<label htmlFor='ques'>Q. {ques[0].ques}</label>
+						</div>
+						<div style={{ textAlign: 'center' }}>
+							<Image
+								src={
+									'https://images.unsplash.com/photo-1567665202038-6c5e97837696?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'
+								}
+								loader={myLoader}
+								height='200'
+								width='300'
+							/>
 						</div>
 						<div className={classes.option}>
 							<input
@@ -123,6 +168,13 @@ const Quiz = () => {
 						</div>
 					</div>
 				</div>
+			</div>
+			<div className={classes.textEditor}>
+				<p>
+					<span>pic</span>
+					<span>symbol</span>
+				</p>
+				<textarea name='text' id='text' cols='30' rows='10'></textarea>
 			</div>
 		</div>
 	);
