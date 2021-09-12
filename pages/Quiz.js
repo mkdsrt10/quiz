@@ -124,9 +124,10 @@ const Quiz = () => {
 					color: 'white',
 					borderRadius: '10px',
 					padding: '0.2rem',
+					wordBreak: 'keep-all',
 				}}
 			>
-				{time} sec
+				{time}sec
 			</span>
 			<div className={classes.board}>
 				{/* <div className={classes.playerCont} id='liveVideoContainer'>
