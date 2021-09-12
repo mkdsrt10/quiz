@@ -3,6 +3,9 @@ import { useEffect, useState } from 'react';
 import classes from '../styles/Quiz.module.css';
 import YouTube from 'react-youtube';
 import Image from 'next/dist/client/image';
+import ImageIcon from '@material-ui/icons/Image';
+import FunctionsIcon from '@material-ui/icons/Functions';
+import CloseIcon from '@material-ui/icons/Close';
 const myLoader = ({ src }) => {
 	return `${src}`;
 };
@@ -12,6 +15,10 @@ const Quiz = () => {
 	const [ans, setAns] = useState('');
 	const [ready, setReady] = useState(false);
 	const [showVideo, setShowVideo] = useState(false);
+	const [time, setTime] = useState();
+	const [math, setMath] = useState(false);
+	const [image, setImage] = useState(false);
+	const [file, setFile] = useState('');
 	const [ques, setQues] = useState([
 		{
 			id: 1,
@@ -33,60 +40,108 @@ const Quiz = () => {
 	useEffect(() => {
 		var key = 'AIzaSyBqehmFSfiommirnXq1ZXcYHgh_zikOvuo';
 		var channelId = 'UCXw0dnfXlCMExVOUpK-iOWg';
+		setTime(100);
 		setReady(true);
-		fetch(
-			`${
-				'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' +
-				channelId +
-				'&eventType=live&maxResults=1&order=date&type=video&key=' +
-				key
-			}`
-		)
-			.then((response) => response.json())
-			.then((data) => {
-				setData(data), console.log(data, ques);
-			});
+		// fetch(
+		// 	`${
+		// 		'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' +
+		// 		channelId +
+		// 		'&eventType=live&maxResults=1&order=date&type=video&key=' +
+		// 		key
+		// 	}`
+		// )
+		// 	.then((response) => response.json())
+		// 	.then((data) => {
+		// 		setData(data), console.log(data, ques);
+		// 	});
 	}, []);
+	useEffect(() => {
+		var hr = document.getElementById('timeLine');
+		if (ready) {
+			let temp = setInterval(() => {
+				if (time > 0) {
+					setTime(time - 1);
+					hr.style.width = `${time}vw`;
+				} else {
+					clearInterval(temp);
+				}
+			}, 1000);
 
-	if (ready) {
-		var player = document.getElementById('liveVideoContainer');
-		if (showVideo) {
-			player.style.flex = 1;
-		} else {
-			player.style.flex = 0;
+			return () => clearInterval(temp);
 		}
-	}
+	});
+
+	// if (ready) {
+	// 	var player = document.getElementById('liveVideoContainer');
+	// 	if (showVideo) {
+	// 		player.style.flex = 1;
+	// 	} else {
+	// 		player.style.flex = 0;
+	// 	}
+	// }
+
+	const handleClick = (e) => {
+		e.preventDefault();
+		if (ans == 'a') {
+		}
+	};
+
 	return (
 		<div className={classes.container}>
 			<div className={classes.header}>
 				<div className={classes.headerContainer}>
 					<p>LOGO</p>
-					<p style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+					<div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
 						<ul>
 							<li>
 								<Link href='https://www.scoreplus.live/Tracker'>
-									<a>TRACK</a>
+									<a style={{ fontSize: '1rem' }}>Track Progress</a>
 								</Link>
 							</li>
 						</ul>
-					</p>
+					</div>
 				</div>
 			</div>
-
+			<hr
+				id='timeLine'
+				style={{
+					margin: 0,
+					height: '4px',
+					border: 'none',
+					background: '#0670ed',
+					transition: 'width 1.2s linear',
+					borderRadius: '2px',
+					marginBottom: 0,
+				}}
+			/>
+			<span
+				style={{
+					position: 'absolute',
+					left: `${time}vw`,
+					top: '15vh',
+					transition: 'left 1.2s linear',
+					backgroundColor: '#0670ed',
+					color: 'white',
+					borderRadius: '10px',
+					padding: '0.2rem',
+				}}
+			>
+				{time} sec
+			</span>
 			<div className={classes.board}>
-				<div className={classes.playerCont} id='liveVideoContainer'>
+				{/* <div className={classes.playerCont} id='liveVideoContainer'>
 					{showVideo && (
 						<YouTube
-							videoId={'dKg8jbk8wGM'}
+							// videoId={data.items[0].id.videoId}
 							className={classes.player}
 							opt={opt}
 							id='liveVideo'
 						/>
 					)}
-				</div>
+				</div> */}
 				<div className={classes.question}>
 					<div className={classes.time}>
-						<p>
+						{/* <p>
 							<input
 								type='checkbox'
 								name='video'
@@ -101,8 +156,8 @@ const Quiz = () => {
 								defaultChecked
 							/>
 							<label htmlFor='video'>HIDE VIDEO</label>
-						</p>
-						<p style={{ textAlign: 'right', margin: 0 }}>TIME:</p>
+						</p> */}
+						{/* <p style={{ textAlign: 'right', margin: 0 }}>Time: {time}sec</p> */}
 					</div>
 					<div className={classes.questionCont}>
 						<div style={{ marginBottom: '2rem' }}>
@@ -169,13 +224,100 @@ const Quiz = () => {
 					</div>
 				</div>
 			</div>
+			<hr
+				style={{
+					margin: '2rem auto',
+					width: '80%',
+					position: 'relative',
+					background: '#414042',
+					border: 'none',
+					height: '1px',
+					marginBottom: '3rem',
+				}}
+			/>
 			<div className={classes.textEditor}>
 				<p>
-					<span>pic</span>
-					<span>symbol</span>
+					<span
+						className={image == true ? classes.selected : ''}
+						onClick={() => {
+							if (!image) {
+								setImage(true), setMath(false);
+							} else {
+								setImage(false);
+							}
+						}}
+					>
+						<ImageIcon />{' '}
+						<span
+							style={{
+								position: 'relative',
+								top: '-0.3rem',
+								border: 'none',
+							}}
+						>
+							Upload Image
+						</span>
+					</span>
+					<span
+						className={math == true ? classes.selected : ''}
+						onClick={() => {
+							if (!math) {
+								setMath(true), setImage(false);
+							} else {
+								setMath(false);
+							}
+						}}
+					>
+						<FunctionsIcon />
+						<span
+							style={{ position: 'relative', top: '-0.3rem', border: 'none' }}
+						>
+							Insert Symbol
+						</span>
+					</span>
 				</p>
+				{math && (
+					<div style={{ width: '100%', height: '10rem', marginBottom: '1rem' }}>
+						<div className={classes.math}>
+							<CloseIcon
+								style={{ position: 'absolute', right: '0.5rem', top: '1rem' }}
+								onClick={() => {
+									setMath(false);
+								}}
+							/>
+						</div>
+					</div>
+				)}
+				{image && (
+					<div className={classes.imageUpload}>
+						<CloseIcon
+							style={{ position: 'absolute', right: '1rem', top: '1rem' }}
+							onClick={() => {
+								setImage(false);
+							}}
+						/>
+						<div>
+							<label
+								htmlFor='image'
+								style={{ fontSize: '1.2rem', fontWeight: '600' }}
+							>
+								Upload Image :{' '}
+							</label>
+							<input
+								type='file'
+								name='image'
+								id='image'
+								accept='images/*'
+								onChange={(e) => setFile(e.target.value)}
+							/>
+						</div>
+					</div>
+				)}
 				<textarea name='text' id='text' cols='30' rows='10'></textarea>
 			</div>
+			<button className={classes.button} onClick={(e) => handleClick(e)}>
+				Submit
+			</button>
 		</div>
 	);
 };

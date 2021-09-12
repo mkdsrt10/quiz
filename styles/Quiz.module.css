@@ -14,6 +14,7 @@
 	margin: auto;
 	display: flex;
 }
+.headerContainer div,
 .headerContainer p {
 	margin: 0;
 	padding: 0;
@@ -23,16 +24,16 @@
 	font-size: 1.5rem;
 	font-family: 'Poppins';
 }
-.headerContainer p li {
+.headerContainer div li {
 	list-style: none;
 }
-.headerContainer p li:hover {
+.headerContainer div li:hover {
 	font-weight: 500;
 }
 .board {
-	width: 86vw;
+	width: 80vw;
 	margin: auto;
-	margin-top: 3rem;
+	margin-top: 1rem;
 	display: flex;
 	flex-direction: row;
 	/* height: 50vh; */
@@ -54,8 +55,6 @@
 	border-radius: 10px;
 }
 .question {
-	padding: 1.5rem;
-	padding-top: 0rem;
 	word-wrap: normal;
 	font-size: 1.2rem;
 }
@@ -84,20 +83,23 @@
 }
 .option {
 	width: 100%;
+	cursor: pointer;
 }
 .option label {
 	display: block;
 	width: 100%;
+	cursor: pointer;
 }
 .option p {
 	margin: 0;
 	padding-left: 1rem;
 	border-radius: 10px;
-	width: 90%;
+	width: 100%;
 }
 .p {
 	border: 1px solid gray;
 	padding: 0.3rem 1rem;
+	cursor: pointer;
 }
 
 .p:hover {
@@ -111,16 +113,70 @@
 }
 
 .textEditor {
-	width: 86vw;
+	width: 80vw;
 	margin: 1rem auto;
-	padding-left: 1rem;
-	border-top: 1px solid gray;
-	margin-bottom: 3rem;
+	margin-bottom: 2rem;
+}
+.textEditor p {
+	margin-bottom: 1rem;
+}
+.textEditor p span {
+	padding: 0.3rem 0.5rem;
+	margin-right: 0.3rem;
+	border: 1px solid gray;
+	height: 100%;
+	border-radius: 10px;
+	display: inline;
+	text-align: center;
+	padding-top: 1rem;
+	cursor: pointer;
 }
 .textEditor textarea {
 	width: 100%;
 	font-size: 1rem;
 	padding: 0.5rem;
+	font-family: 'Poppins';
+	outline: none;
+	border-radius: 10px;
+	border: 1px gray solid;
+}
+.selected {
+	background-color: #0670ed;
+	color: white;
+	border: none !important;
+}
+.button {
+	width: 30vw;
+	margin: 0rem 35vw;
+	height: 2rem;
+	font-size: 1.3rem;
+	background-color: #0670ed;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	margin-bottom: 3rem;
+}
+.math {
+	width: 100%;
+	height: 10rem;
+	overflow-y: scroll;
+	padding: 1.2rem;
+	position: relative;
+	margin-bottom: 1rem;
+	border-radius: 10px;
+	background-color: rgba(128, 128, 128, 0.103);
+}
+.imageUpload {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 10rem;
+	margin-bottom: 1rem;
+	background-color: rgba(128, 128, 128, 0.103);
+	width: 100%;
+	border-radius: 10px;
+	text-align: center;
+	position: relative;
 }
 
 @media (max-width: 800px) {
@@ -132,5 +188,17 @@
 	}
 	.time {
 		padding-top: 1rem;
+	}
+	.button {
+		width: 60vw;
+		margin: 1rem 20vw;
+	}
+}
+@media (max-width: 420px) {
+	.textEditor p span {
+		padding: 0.2rem;
+		display: inline-block;
+		width: auto;
+		margin: 0.3rem;
 	}
 }

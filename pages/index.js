@@ -27,7 +27,7 @@ export default function Home() {
 			<div className={styles.header}>
 				<div className={styles.headerContainer}>
 					<p>LOGO</p>
-					<p style={{ display: 'flex', flexDirection: 'row-reverse' }}>
+					<div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
 						<ul>
 							<li>
 								<Link href='https://www.scoreplus.live/Tracker'>
@@ -35,7 +35,7 @@ export default function Home() {
 								</Link>
 							</li>
 						</ul>
-					</p>
+					</div>
 				</div>
 			</div>
 			<div className={styles.code}>
