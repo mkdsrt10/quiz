@@ -4,30 +4,6 @@ import classes from '../styles/Quiz.module.css';
 import YouTube from 'react-youtube';
 import Image from 'next/dist/client/image';
 
-function getWindowDimensions() {
-	const { innerWidth: width, innerHeight: height } = window;
-	return {
-		width,
-		height,
-	};
-}
-
-function useWindowDimensions() {
-	const [windowDimensions, setWindowDimensions] = useState(
-		getWindowDimensions()
-	);
-
-	useEffect(() => {
-		function handleResize() {
-			setWindowDimensions(getWindowDimensions());
-		}
-
-		window.addEventListener('resize', handleResize);
-		return () => window.removeEventListener('resize', handleResize);
-	}, []);
-
-	return windowDimensions;
-}
 const myLoader = ({ src }) => {
 	return `${src}`;
 };
@@ -38,10 +14,6 @@ const Quiz = () => {
 	const [ready, setReady] = useState(false);
 	const [showVideo, setShowVideo] = useState(false);
 	const [time, setTime] = useState();
-	const [math, setMath] = useState(false);
-	const [image, setImage] = useState(false);
-	const [file, setFile] = useState('');
-	const screen = useWindowDimensions();
 	const [ques, setQues] = useState([
 		{
 			id: 1,
@@ -105,8 +77,6 @@ const Quiz = () => {
 
 	const handleClick = (e) => {
 		e.preventDefault();
-		if (ans == 'a') {
-		}
 	};
 
 	return (
@@ -148,7 +118,7 @@ const Quiz = () => {
 					borderRadius: '10px',
 					padding: '0.2rem',
 					wordBreak: 'keep-all',
-					borderTopLeftRadius: `${screen.width > 800 ? 10 : 0}px`,
+					borderTopLeftRadius: `${ready && window.innerWidth > 800 ? 10 : 0}px`,
 				}}
 			>
 				{time}sec
@@ -190,12 +160,11 @@ const Quiz = () => {
 						</div>
 						<div style={{ textAlign: 'center' }}>
 							<Image
-								src={
-									'https://images.unsplash.com/photo-1567665202038-6c5e97837696?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80'
-								}
+								src={'https://www.ducksters.com/kidsmath/volume_box.gif'}
 								loader={myLoader}
 								height='200'
 								width='300'
+								unoptimized
 							/>
 						</div>
 						<div className={classes.option}>
