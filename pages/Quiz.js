@@ -3,9 +3,31 @@ import { useEffect, useState } from 'react';
 import classes from '../styles/Quiz.module.css';
 import YouTube from 'react-youtube';
 import Image from 'next/dist/client/image';
-import ImageIcon from '@material-ui/icons/Image';
-import FunctionsIcon from '@material-ui/icons/Functions';
-import CloseIcon from '@material-ui/icons/Close';
+
+function getWindowDimensions() {
+	const { innerWidth: width, innerHeight: height } = window;
+	return {
+		width,
+		height,
+	};
+}
+
+function useWindowDimensions() {
+	const [windowDimensions, setWindowDimensions] = useState(
+		getWindowDimensions()
+	);
+
+	useEffect(() => {
+		function handleResize() {
+			setWindowDimensions(getWindowDimensions());
+		}
+
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
+
+	return windowDimensions;
+}
 const myLoader = ({ src }) => {
 	return `${src}`;
 };
@@ -16,16 +38,19 @@ const Quiz = () => {
 	const [ready, setReady] = useState(false);
 	const [showVideo, setShowVideo] = useState(false);
 	const [time, setTime] = useState();
-
+	const [math, setMath] = useState(false);
+	const [image, setImage] = useState(false);
+	const [file, setFile] = useState('');
+	const screen = useWindowDimensions();
 	const [ques, setQues] = useState([
 		{
 			id: 1,
-			ques: 'Σ x³ + y³ =2³  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo tenetur eos nesciunt, vel amet tempora hic harum officia a aperiam beatae, rerum quis eligendi culpa consequatur facere officiis, maiores corrupti.',
+			ques: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo tenetur eos nesciunt, vel amet tempora hic harum officia a aperiam beatae, rerum quis eligendi culpa consequatur facere officiis, maiores corrupti.',
 			opts: {
-				a: 'a³ ',
-				b: 'b³ ',
-				c: 'c³ ',
-				d: 'd³ +a³ ',
+				a: 'a',
+				b: 'b',
+				c: 'c',
+				d: 'd',
 			},
 		},
 	]);
@@ -80,6 +105,8 @@ const Quiz = () => {
 
 	const handleClick = (e) => {
 		e.preventDefault();
+		if (ans == 'a') {
+		}
 	};
 
 	return (
@@ -108,8 +135,6 @@ const Quiz = () => {
 					transition: 'width 1.2s linear',
 					borderRadius: '2px',
 					marginBottom: 0,
-					borderTopRightRadius: `${window.innerWidth > 800 ? 4 : 0}px`,
-					borderBottomRightRadius: `${window.innerWidth > 800 ? 4 : 0}px`,
 				}}
 			/>
 			<span
@@ -123,7 +148,7 @@ const Quiz = () => {
 					borderRadius: '10px',
 					padding: '0.2rem',
 					wordBreak: 'keep-all',
-					borderTopLeftRadius: `${window.innerWidth > 800 ? 10 : 0}px`,
+					borderTopLeftRadius: `${screen.width > 800 ? 10 : 0}px`,
 				}}
 			>
 				{time}sec
@@ -171,7 +196,6 @@ const Quiz = () => {
 								loader={myLoader}
 								height='200'
 								width='300'
-								alt='ques'
 							/>
 						</div>
 						<div className={classes.option}>
@@ -225,6 +249,7 @@ const Quiz = () => {
 					</div>
 				</div>
 			</div>
+
 			<button className={classes.button} onClick={(e) => handleClick(e)}>
 				Submit
 			</button>
