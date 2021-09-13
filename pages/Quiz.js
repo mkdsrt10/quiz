@@ -16,18 +16,16 @@ const Quiz = () => {
 	const [ready, setReady] = useState(false);
 	const [showVideo, setShowVideo] = useState(false);
 	const [time, setTime] = useState();
-	const [math, setMath] = useState(false);
-	const [image, setImage] = useState(false);
-	const [file, setFile] = useState('');
+
 	const [ques, setQues] = useState([
 		{
 			id: 1,
-			ques: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo tenetur eos nesciunt, vel amet tempora hic harum officia a aperiam beatae, rerum quis eligendi culpa consequatur facere officiis, maiores corrupti.',
+			ques: 'Σ x³ + y³ =2³  Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo tenetur eos nesciunt, vel amet tempora hic harum officia a aperiam beatae, rerum quis eligendi culpa consequatur facere officiis, maiores corrupti.',
 			opts: {
-				a: 'a',
-				b: 'b',
-				c: 'c',
-				d: 'd',
+				a: 'a³ ',
+				b: 'b³ ',
+				c: 'c³ ',
+				d: 'd³ +a³ ',
 			},
 		},
 	]);
@@ -82,8 +80,6 @@ const Quiz = () => {
 
 	const handleClick = (e) => {
 		e.preventDefault();
-		if (ans == 'a') {
-		}
 	};
 
 	return (
@@ -112,6 +108,8 @@ const Quiz = () => {
 					transition: 'width 1.2s linear',
 					borderRadius: '2px',
 					marginBottom: 0,
+					borderTopRightRadius: `${window.innerWidth > 800 ? 4 : 0}px`,
+					borderBottomRightRadius: `${window.innerWidth > 800 ? 4 : 0}px`,
 				}}
 			/>
 			<span
@@ -125,6 +123,7 @@ const Quiz = () => {
 					borderRadius: '10px',
 					padding: '0.2rem',
 					wordBreak: 'keep-all',
+					borderTopLeftRadius: `${window.innerWidth > 800 ? 10 : 0}px`,
 				}}
 			>
 				{time}sec
@@ -224,97 +223,6 @@ const Quiz = () => {
 						</div>
 					</div>
 				</div>
-			</div>
-			<hr
-				style={{
-					margin: '2rem auto',
-					width: '80%',
-					position: 'relative',
-					background: '#414042',
-					border: 'none',
-					height: '1px',
-					marginBottom: '3rem',
-				}}
-			/>
-			<div className={classes.textEditor}>
-				<p>
-					<span
-						className={image == true ? classes.selected : ''}
-						onClick={() => {
-							if (!image) {
-								setImage(true), setMath(false);
-							} else {
-								setImage(false);
-							}
-						}}
-					>
-						<ImageIcon />{' '}
-						<span
-							style={{
-								position: 'relative',
-								top: '-0.3rem',
-								border: 'none',
-							}}
-						>
-							Upload Image
-						</span>
-					</span>
-					<span
-						className={math == true ? classes.selected : ''}
-						onClick={() => {
-							if (!math) {
-								setMath(true), setImage(false);
-							} else {
-								setMath(false);
-							}
-						}}
-					>
-						<FunctionsIcon />
-						<span
-							style={{ position: 'relative', top: '-0.3rem', border: 'none' }}
-						>
-							Insert Symbol
-						</span>
-					</span>
-				</p>
-				{math && (
-					<div style={{ width: '100%', height: '10rem', marginBottom: '1rem' }}>
-						<div className={classes.math}>
-							<CloseIcon
-								style={{ position: 'absolute', right: '0.5rem', top: '1rem' }}
-								onClick={() => {
-									setMath(false);
-								}}
-							/>
-						</div>
-					</div>
-				)}
-				{image && (
-					<div className={classes.imageUpload}>
-						<CloseIcon
-							style={{ position: 'absolute', right: '1rem', top: '1rem' }}
-							onClick={() => {
-								setImage(false);
-							}}
-						/>
-						<div>
-							<label
-								htmlFor='image'
-								style={{ fontSize: '1.2rem', fontWeight: '600' }}
-							>
-								Upload Image :{' '}
-							</label>
-							<input
-								type='file'
-								name='image'
-								id='image'
-								accept='images/*'
-								onChange={(e) => setFile(e.target.value)}
-							/>
-						</div>
-					</div>
-				)}
-				<textarea name='text' id='text' cols='30' rows='10'></textarea>
 			</div>
 			<button className={classes.button} onClick={(e) => handleClick(e)}>
 				Submit

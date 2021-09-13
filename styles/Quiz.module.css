@@ -112,39 +112,6 @@
 	font-weight: 500;
 }
 
-.textEditor {
-	width: 80vw;
-	margin: 1rem auto;
-	margin-bottom: 2rem;
-}
-.textEditor p {
-	margin-bottom: 1rem;
-}
-.textEditor p span {
-	padding: 0.3rem 0.5rem;
-	margin-right: 0.3rem;
-	border: 1px solid gray;
-	height: 100%;
-	border-radius: 10px;
-	display: inline;
-	text-align: center;
-	padding-top: 1rem;
-	cursor: pointer;
-}
-.textEditor textarea {
-	width: 100%;
-	font-size: 1rem;
-	padding: 0.5rem;
-	font-family: 'Poppins';
-	outline: none;
-	border-radius: 10px;
-	border: 1px gray solid;
-}
-.selected {
-	background-color: #0670ed;
-	color: white;
-	border: none !important;
-}
 .button {
 	width: 30vw;
 	margin: 0rem 35vw;
@@ -155,28 +122,6 @@
 	border: none;
 	border-radius: 10px;
 	margin-bottom: 3rem;
-}
-.math {
-	width: 100%;
-	height: 10rem;
-	overflow-y: scroll;
-	padding: 1.2rem;
-	position: relative;
-	margin-bottom: 1rem;
-	border-radius: 10px;
-	background-color: rgba(128, 128, 128, 0.103);
-}
-.imageUpload {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 10rem;
-	margin-bottom: 1rem;
-	background-color: rgba(128, 128, 128, 0.103);
-	width: 100%;
-	border-radius: 10px;
-	text-align: center;
-	position: relative;
 }
 
 @media (max-width: 800px) {
