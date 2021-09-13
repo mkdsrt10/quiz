@@ -171,6 +171,7 @@ const Quiz = () => {
 								loader={myLoader}
 								height='200'
 								width='300'
+								alt='ques'
 							/>
 						</div>
 						<div className={classes.option}>
