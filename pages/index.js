@@ -31,7 +31,7 @@ export default function Home() {
 						<ul>
 							<li>
 								<Link href='https://www.scoreplus.live/Tracker'>
-									<a>TRACK</a>
+									<a style={{ fontSize: '1rem' }}>Track Progress</a>
 								</Link>
 							</li>
 						</ul>
