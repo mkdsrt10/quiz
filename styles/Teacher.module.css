@@ -1,0 +1,51 @@
+.container {
+	width: 100vw;
+	padding: 0;
+	margin: 0;
+}
+.header {
+	height: 15vh;
+	width: 100vw;
+	background-color: rgba(255, 211, 49, 1);
+}
+.headerContainer {
+	height: 15vh;
+	width: 86vw;
+	margin: auto;
+	display: flex;
+}
+.headerContainer div {
+	margin: 0;
+	padding: 0;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	font-size: 1.5rem;
+	font-family: 'Poppins';
+	list-style: none;
+}
+.headerContainer div li {
+	list-style: none;
+}
+.headerContainer div li:hover {
+	font-weight: 500;
+}
+.main {
+	width: 86vw;
+	margin: auto;
+}
+.main div {
+	text-align: center;
+}
+.container button {
+	background-color: #0670ed;
+	border: none;
+	color: white;
+	height: 2rem;
+	padding: 0.5rem 1.5rem;
+	border-radius: 10px;
+	margin: 1rem;
+}
+.container h2 {
+	font-weight: 600;
+}

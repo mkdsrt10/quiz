@@ -14,8 +14,7 @@
 	margin: auto;
 	display: flex;
 }
-.headerContainer div,
-.headerContainer p {
+.headerContainer div {
 	margin: 0;
 	padding: 0;
 	flex: 1;
@@ -114,14 +113,13 @@
 
 .button {
 	width: 30vw;
-	margin: 0rem 35vw;
+	margin: 3rem 35vw;
 	height: 2rem;
 	font-size: 1.3rem;
 	background-color: #0670ed;
 	color: white;
 	border: none;
 	border-radius: 10px;
-	margin-bottom: 3rem;
 }
 
 @media (max-width: 800px) {

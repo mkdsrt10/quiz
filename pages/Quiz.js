@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import classes from '../styles/Quiz.module.css';
 import YouTube from 'react-youtube';
 import Image from 'next/dist/client/image';
+import Pusher from 'pusher-js';
+import logo from '../public/logo.svg';
 
 const myLoader = ({ src }) => {
 	return `${src}`;
@@ -14,6 +16,47 @@ const Quiz = () => {
 	const [ready, setReady] = useState(false);
 	const [showVideo, setShowVideo] = useState(false);
 	const [time, setTime] = useState();
+	const temp = [
+		{
+			type: 'text',
+			title: 'This is a sample text',
+			image: '../public/logo.svg',
+		},
+		{
+			type: 'question',
+			question: {
+				title: 'This is the question',
+				image: '/logo.png',
+				options: [
+					{ id: 0, title: 'Option A' },
+					{ id: 1, title: 'Option B' },
+					{ id: 2, title: 'Option C' },
+					{ id: 3, title: 'Option D' },
+				],
+			},
+		},
+		{
+			type: 'answer',
+			correctAns: 1,
+			question: {
+				title: 'This is the question',
+				image: '/logo.png',
+				options: [
+					{ id: 0, title: 'Option A' },
+					{ id: 1, title: 'Option B' },
+					{ id: 2, title: 'Option C' },
+					{ id: 3, title: 'Option D' },
+				],
+			},
+		},
+		{
+			type: 'leaderboard',
+			leaders: [
+				{ name: 'Nitin', point: 100 },
+				{ name: 'Vijay', point: 200 },
+			],
+		},
+	];
 	const [ques, setQues] = useState([
 		{
 			id: 1,
@@ -33,22 +76,18 @@ const Quiz = () => {
 		},
 	};
 	useEffect(() => {
-		var key = 'AIzaSyBqehmFSfiommirnXq1ZXcYHgh_zikOvuo';
-		var channelId = 'UCXw0dnfXlCMExVOUpK-iOWg';
 		setTime(100);
 		setReady(true);
-		// fetch(
-		// 	`${
-		// 		'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' +
-		// 		channelId +
-		// 		'&eventType=live&maxResults=1&order=date&type=video&key=' +
-		// 		key
-		// 	}`
-		// )
-		// 	.then((response) => response.json())
-		// 	.then((data) => {
-		// 		setData(data), console.log(data, ques);
-		// 	});
+
+		let pusher = new Pusher('a8db60a268d186196705', {
+			cluster: 'ap2',
+		});
+
+		let channel = pusher.subscribe('my-channel');
+		channel.bind('state', function (data) {
+			setData(data);
+			console.log(data);
+		});
 	}, []);
 	useEffect(() => {
 		var hr = document.getElementById('timeLine');
@@ -83,7 +122,11 @@ const Quiz = () => {
 		<div className={classes.container}>
 			<div className={classes.header}>
 				<div className={classes.headerContainer}>
-					<p>LOGO</p>
+					<div style={{ flex: 'left' }}>
+						<span style={{ transform: 'scale(1.2)', marginTop: '1rem' }}>
+							<Image src={logo} />
+						</span>
+					</div>
 					<div style={{ display: 'flex', flexDirection: 'row-reverse' }}>
 						<ul>
 							<li>
@@ -123,8 +166,9 @@ const Quiz = () => {
 			>
 				{time}sec
 			</span>
-			<div className={classes.board}>
-				{/* <div className={classes.playerCont} id='liveVideoContainer'>
+			{data != undefined && (
+				<div className={classes.board}>
+					{/* <div className={classes.playerCont} id='liveVideoContainer'>
 					{showVideo && (
 						<YouTube
 							// videoId={data.items[0].id.videoId}
@@ -134,9 +178,37 @@ const Quiz = () => {
 						/>
 					)}
 				</div> */}
-				<div className={classes.question}>
-					<div className={classes.time}>
-						{/* <p>
+
+					{data.type === 'text' && (
+						<div className={classes.questionCont}>
+							<div style={{ marginBottom: '2rem' }}>
+								<p
+									style={{
+										margin: '0',
+										textAlign: 'center',
+										fontWeight: '600',
+									}}
+								>
+									{data.title}
+								</p>
+							</div>
+							<div style={{ textAlign: 'center' }}>
+								<Image
+									src={data.image}
+									loader={myLoader}
+									height='200'
+									width='300'
+									unoptimized
+								/>
+							</div>
+						</div>
+					)}
+
+					{(data.type === 'answer' || data.type === 'question') && (
+						<>
+							<div className={classes.question}>
+								<div className={classes.time}>
+									{/* <p>
 							<input
 								type='checkbox'
 								name='video'
@@ -152,76 +224,144 @@ const Quiz = () => {
 							/>
 							<label htmlFor='video'>HIDE VIDEO</label>
 						</p> */}
-						{/* <p style={{ textAlign: 'right', margin: 0 }}>Time: {time}sec</p> */}
-					</div>
-					<div className={classes.questionCont}>
-						<div style={{ marginBottom: '2rem' }}>
-							<label htmlFor='ques'>Q. {ques[0].ques}</label>
-						</div>
-						<div style={{ textAlign: 'center' }}>
-							<Image
-								src={'https://www.ducksters.com/kidsmath/volume_box.gif'}
-								loader={myLoader}
-								height='200'
-								width='300'
-								unoptimized
-							/>
-						</div>
-						<div className={classes.option}>
-							<input
-								type='radio'
-								name='ques'
-								id='opt1'
-								value={ques[0].opts.a}
-								onChange={(e) => setAns(e.target.value)}
-							/>
-							<p className={classes.p}>
-								<label htmlFor='opt1'>{ques[0].opts.a}</label>
-							</p>
-						</div>
-						<div className={classes.option}>
-							<input
-								type='radio'
-								name='ques'
-								id='opt2'
-								value={ques[0].opts.b}
-								onChange={(e) => setAns(e.target.value)}
-							/>
-							<p className={classes.p}>
-								<label htmlFor='opt2'>{ques[0].opts.b}</label>
-							</p>
-						</div>
-						<div className={classes.option}>
-							<input
-								type='radio'
-								name='ques'
-								id='opt3'
-								value={ques[0].opts.c}
-								onChange={(e) => setAns(e.target.value)}
-							/>
-							<p className={classes.p}>
-								<label htmlFor='opt3'>{ques[0].opts.c}</label>
-							</p>
-						</div>
-						<div className={classes.option}>
-							<input
-								type='radio'
-								name='ques'
-								id='opt4'
-								value={ques[0].opts.d}
-								onChange={(e) => setAns(e.target.value)}
-							/>
-							<p className={classes.p}>
-								<label htmlFor='opt4'>{ques[0].opts.d}</label>
-							</p>
-						</div>
-					</div>
+									{/* <p style={{ textAlign: 'right', margin: 0 }}>Time: {time}sec</p> */}
+								</div>
+								<div className={classes.questionCont}>
+									<div style={{ marginBottom: '2rem' }}>
+										<label htmlFor='ques'>Q. {data.question.title}</label>
+									</div>
+									<div style={{ textAlign: 'center' }}>
+										<Image
+											src='#'
+											loader={data.question.image}
+											height='200'
+											width='300'
+											unoptimized
+										/>
+									</div>
+									<div className={classes.option}>
+										<input
+											type='radio'
+											name='ques'
+											id='opt1'
+											value={data.question.options[0].title}
+											onChange={(e) => setAns(e.target.value)}
+										/>
+										<p
+											className={classes.p}
+											style={{
+												color: `${
+													data.type === 'answer' && data.correctAns == '0'
+														? '#fff'
+														: ''
+												}`,
+												backgroundColor: `${
+													data.type === 'answer' && data.correctAns == '0'
+														? 'green'
+														: ''
+												}`,
+											}}
+										>
+											<label htmlFor='opt1'>
+												{data.question.options[0].title}
+											</label>
+										</p>
+									</div>
+									<div className={classes.option}>
+										<input
+											type='radio'
+											name='ques'
+											id='opt2'
+											value={data.question.options[1].title}
+											onChange={(e) => setAns(e.target.value)}
+										/>
+										<p
+											className={classes.p}
+											style={{
+												color: `${
+													data.type === 'answer' && data.correctAns == '1'
+														? '#fff'
+														: ''
+												}`,
+												backgroundColor: `${
+													data.type === 'answer' && data.correctAns == '1'
+														? 'green'
+														: ''
+												}`,
+											}}
+										>
+											<label htmlFor='opt2'>
+												{data.question.options[1].title}
+											</label>
+										</p>
+									</div>
+									<div className={classes.option}>
+										<input
+											type='radio'
+											name='ques'
+											id='opt3'
+											value={data.question.options[2].title}
+											onChange={(e) => setAns(e.target.value)}
+										/>
+										<p
+											className={classes.p}
+											style={{
+												color: `${
+													data.type === 'answer' && data.correctAns == '2'
+														? '#fff'
+														: ''
+												}`,
+												backgroundColor: `${
+													data.type === 'answer' && data.correctAns == '2'
+														? 'green'
+														: ''
+												}`,
+											}}
+										>
+											<label htmlFor='opt3'>
+												{data.question.options[2].title}
+											</label>
+										</p>
+									</div>
+									<div className={classes.option}>
+										<input
+											type='radio'
+											name='ques'
+											id='opt4'
+											value={data.question.options[3].title}
+											onChange={(e) => setAns(e.target.value)}
+										/>
+										<p
+											className={classes.p}
+											style={{
+												color: `${
+													data.type === 'answer' && data.correctAns == '3'
+														? '#fff'
+														: ''
+												}`,
+												backgroundColor: `${
+													data.type === 'answer' && data.correctAns == '3'
+														? 'green'
+														: ''
+												}`,
+											}}
+										>
+											<label htmlFor='opt4'>
+												{data.question.options[3].title}
+											</label>
+										</p>
+									</div>
+								</div>
+							</div>
+						</>
+					)}
 				</div>
-			</div>
-
-			<button className={classes.button} onClick={(e) => handleClick(e)}>
-				Submit
-			</button>
+			)}
+			{data != undefined && data.type === 'question' && (
+				<button className={classes.button} onClick={(e) => handleClick(e)}>
+					Submit
+				</button>
+			)}
 		</div>
 	);
 };

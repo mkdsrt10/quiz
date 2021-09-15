@@ -17,7 +17,6 @@
 	margin: auto;
 	display: flex;
 }
-.headerContainer p,
 .headerContainer div {
 	margin: 0;
 	padding: 0;
@@ -34,71 +33,84 @@
 .headerContainer div li:hover {
 	font-weight: 500;
 }
-.code {
-	height: 85vh;
-	width: 86vw;
-	margin: auto;
+.form {
+	width: 100vw;
 	display: grid;
 	align-content: center;
-	justify-content: center;
+	justify-items: center;
+	padding: 2rem;
+	padding-top: 4rem;
 }
-.codeContainer {
-	width: 30vw;
-	margin: auto;
-	height: 30vh;
+.form form {
+	width: 30%;
 }
-.code p {
-	font-size: 1.5rem;
-	text-align: center;
-	font-family: 'Poppins';
-	margin: auto;
-	position: relative;
-	top: -1rem;
+.form form div {
+	margin: 1rem 0;
+	font-size: 1.2rem;
 }
-.codeContainer input {
+.form form input,
+.form form select {
+	float: right;
+	width: 10rem;
+	height: 1.5rem;
 	outline: none;
-	border: none;
-	height: 15vh;
-	width: 30vw;
-	font-size: 3rem;
-	text-align: center;
-	border-radius: 20px;
-	margin: auto;
-	border: 1px solid gray;
-	letter-spacing: 0.3rem;
+	border-radius: 5px;
+	padding: 0.3rem;
+	border: 1px solid #41404263;
 }
-.button {
-	width: 20vw;
-	margin: 5vh 5vw;
-	font-size: 1rem;
-	height: 2rem;
-	border: 1px solid gray;
-	border-radius: 10px;
-	font-family: 'Poppins';
-	color: white;
+.form form button {
+	width: 50%;
+	margin: 0 25%;
 	background-color: #0670ed;
+	color: #fff;
+	border: none;
+	height: 2rem;
+	font-size: 1rem;
+	border-radius: 10px;
+}
+.form p {
+	text-align: center;
+	font-size: 0.8rem;
+	margin: 0;
+	margin-top: 0.5rem;
+}
+.form p:hover {
+	color: #0670ed;
+	cursor: pointer;
+}
+@media (max-width: 1000px) {
+	.form form {
+		width: 45%;
+	}
+	.form form button {
+		width: 60%;
+		margin: 0 20%;
+	}
 }
 @media (max-width: 800px) {
-	.codeContainer {
-		width: 90vw;
-		margin: auto;
+	.form {
+		padding: 1.5rem;
+		padding-top: 4rem;
 	}
-	.codeContainer input {
-		width: 60vw;
-		margin-left: 15vw;
+	.form form {
+		width: 60%;
 	}
-	.button {
-		width: 60vw;
-		margin: 5vh 15vw;
+	.form form button {
+		width: 70%;
+		margin: 0 15%;
 	}
 }
-@media (max-width: 550px) {
-	.codeContainer input {
-		width: 80vw;
-		margin-left: 7.5vw;
+
+@media (max-width: 500px) {
+	.form {
+		padding: 1rem;
+		padding-top: 3rem;
 	}
-	.button {
-		width: 70vw;
-		margin: 5vh 10vw;
+	.form form {
+		width: 90%;
+	}
+	.form form button {
+		width: 80%;
+		margin: 0 10%;
 	}
 }
