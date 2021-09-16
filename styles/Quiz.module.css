@@ -121,6 +121,11 @@
 	border: none;
 	border-radius: 10px;
 }
+.leaderBoard {
+	width: 60%;
+	margin: auto;
+	margin-bottom: 3rem;
+}
 
 @media (max-width: 800px) {
 	.board {
@@ -136,6 +141,10 @@
 		width: 60vw;
 		margin: 1rem 20vw;
 	}
+	.leaderBoard {
+		width: 100%;
+		height: auto;
+	}
 }
 @media (max-width: 420px) {
 	.textEditor p span {
@@ -143,5 +152,8 @@
 		display: inline-block;
 		width: auto;
 		margin: 0.3rem;
+	}
+	.leaderBoard {
+		width: 100%;
 	}
 }

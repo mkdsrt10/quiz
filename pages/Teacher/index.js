@@ -5,12 +5,15 @@ import { useEffect, useState } from 'react';
 import Pusher from 'pusher-js';
 import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 import logo from '../../public/logo.svg';
+import Chart from 'react-google-charts';
 
 export default function Home() {
 	const [state, setState] = useState();
+	const [graphData, setGraphData] = useState();
 
 	useEffect(() => {
 		console.log(state);
+		const chartData = [['Names', 'Points']];
 		let pusher = new Pusher('a8db60a268d186196705', {
 			cluster: 'ap2',
 		});
@@ -19,6 +22,16 @@ export default function Home() {
 		channel.bind('state', function (data) {
 			setState(data);
 			console.log(data);
+			if (data.type == 'leaderboard') {
+				data.leaders.forEach((item) => {
+					const temp = [];
+					temp.push(item.name);
+					temp.push(item.point);
+					chartData.push(temp);
+				});
+
+				setGraphData(chartData);
+			}
 		});
 	}, []);
 
@@ -108,15 +121,36 @@ export default function Home() {
 								</div>
 							</div>
 						) : state && state.type === 'leaderboard' ? (
-							<div>
-								{state.leaders.map((opt) => {
+							<div style={{ paddingTop: '3rem' }}>
+								{/* {state.leaders.map((opt) => {
 									// eslint-disable-next-line react/jsx-key
 									return (
 										<p>
 											{opt.name} - {opt.point}
 										</p>
 									);
-								})}
+								})} */}
+
+								<Chart
+									width={'100%'}
+									height={'auto'}
+									chartType='BarChart'
+									loader={<div>Loading Leader Board</div>}
+									data={graphData}
+									options={{
+										title: 'Top Performers',
+										chartArea: {
+											width: `${window.innerWidth > 800 ? 80 : 60}%`,
+										},
+										hAxis: {
+											title: 'Points',
+											minValue: 0,
+										},
+										vAxis: {
+											title: 'Names',
+										},
+									}}
+								/>
 							</div>
 						) : state && state.type === 'text' ? (
 							<div>

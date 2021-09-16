@@ -5,6 +5,7 @@ import YouTube from 'react-youtube';
 import Image from 'next/dist/client/image';
 import Pusher from 'pusher-js';
 import logo from '../public/logo.svg';
+import Chart from 'react-google-charts';
 
 const myLoader = ({ src }) => {
 	return `${src}`;
@@ -16,6 +17,7 @@ const Quiz = () => {
 	const [ready, setReady] = useState(false);
 	const [showVideo, setShowVideo] = useState(false);
 	const [time, setTime] = useState();
+	const [graphData, setGraphData] = useState();
 	const temp = [
 		{
 			type: 'text',
@@ -78,6 +80,7 @@ const Quiz = () => {
 	useEffect(() => {
 		setTime(100);
 		setReady(true);
+		const chartData = [['Names', 'Points']];
 
 		let pusher = new Pusher('a8db60a268d186196705', {
 			cluster: 'ap2',
@@ -87,21 +90,33 @@ const Quiz = () => {
 		channel.bind('state', function (data) {
 			setData(data);
 			console.log(data);
+			if (data.type == 'leaderboard') {
+				data.leaders.forEach((item) => {
+					const temp = [];
+					temp.push(item.name);
+					temp.push(item.point);
+					chartData.push(temp);
+				});
+				console.log(chartData);
+				setGraphData(chartData);
+			}
 		});
 	}, []);
 	useEffect(() => {
-		var hr = document.getElementById('timeLine');
-		if (ready) {
-			let temp = setInterval(() => {
-				if (time > 0) {
-					setTime(time - 1);
-					hr.style.width = `${time}vw`;
-				} else {
-					clearInterval(temp);
-				}
-			}, 1000);
+		if (data != undefined && data.type === 'question') {
+			var hr = document.getElementById('timeLine');
+			if (ready) {
+				let temp = setInterval(() => {
+					if (time > 0) {
+						setTime(time - 1);
+						hr.style.width = `${time}vw`;
+					} else {
+						clearInterval(temp);
+					}
+				}, 1000);
 
-			return () => clearInterval(temp);
+				return () => clearInterval(temp);
+			}
 		}
 	});
 
@@ -138,34 +153,40 @@ const Quiz = () => {
 					</div>
 				</div>
 			</div>
-			<hr
-				id='timeLine'
-				style={{
-					margin: 0,
-					height: '4px',
-					border: 'none',
-					background: '#0670ed',
-					transition: 'width 1.2s linear',
-					borderRadius: '2px',
-					marginBottom: 0,
-				}}
-			/>
-			<span
-				style={{
-					position: 'absolute',
-					left: `${time}vw`,
-					top: '15vh',
-					transition: 'left 1.2s linear',
-					backgroundColor: '#0670ed',
-					color: 'white',
-					borderRadius: '10px',
-					padding: '0.2rem',
-					wordBreak: 'keep-all',
-					borderTopLeftRadius: `${ready && window.innerWidth > 800 ? 10 : 0}px`,
-				}}
-			>
-				{time}sec
-			</span>
+			{data != undefined && data.type === 'question' && (
+				<hr
+					id='timeLine'
+					style={{
+						margin: 0,
+						height: '4px',
+						border: 'none',
+						background: '#0670ed',
+						transition: 'width 1.2s linear',
+						borderRadius: '2px',
+						marginBottom: 0,
+					}}
+				/>
+			)}
+			{data != undefined && data.type === 'question' && (
+				<span
+					style={{
+						position: 'absolute',
+						left: `${time}vw`,
+						top: '15vh',
+						transition: 'left 1.2s linear',
+						backgroundColor: '#0670ed',
+						color: 'white',
+						borderRadius: '10px',
+						padding: '0.2rem',
+						wordBreak: 'keep-all',
+						borderTopLeftRadius: `${
+							ready && window.innerWidth > 800 ? 10 : 0
+						}px`,
+					}}
+				>
+					{time}sec
+				</span>
+			)}
 			{data != undefined && (
 				<div className={classes.board}>
 					{/* <div className={classes.playerCont} id='liveVideoContainer'>
@@ -178,7 +199,37 @@ const Quiz = () => {
 						/>
 					)}
 				</div> */}
-
+					{data.type === 'leaderboard' && (
+						<div className={classes.leaderBoard}>
+							<p
+								style={{
+									textAlign: 'center',
+									fontSize: '1.4rem',
+									fontWeight: '600',
+								}}
+							>
+								Leader Board
+							</p>
+							<Chart
+								width={'100%'}
+								height={'auto'}
+								chartType='BarChart'
+								loader={<div>Loading Leader Board</div>}
+								data={graphData}
+								options={{
+									title: 'Top Performers',
+									chartArea: { width: `${window.innerWidth > 800 ? 80 : 60}%` },
+									hAxis: {
+										title: 'Points',
+										minValue: 0,
+									},
+									vAxis: {
+										title: 'Names',
+									},
+								}}
+							/>
+						</div>
+					)}
 					{data.type === 'text' && (
 						<div className={classes.questionCont}>
 							<div style={{ marginBottom: '2rem' }}>
@@ -361,6 +412,14 @@ const Quiz = () => {
 				<button className={classes.button} onClick={(e) => handleClick(e)}>
 					Submit
 				</button>
+			)}
+			{data == undefined && (
+				<div className={classes.question}>
+					<p style={{ textAlign: 'center' }}>Wait quiz will start soon</p>
+					<p style={{ textAlign: 'center', fontSize: '0.9rem' }}>
+						Please Join us on Youtube
+					</p>
+				</div>
 			)}
 		</div>
 	);
