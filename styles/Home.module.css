@@ -5,6 +5,7 @@
 	width: 100vw;
 	font-family: 'Poppins';
 	color: #414042;
+	overflow-x: hidden;
 }
 .header {
 	height: 15vh;
@@ -64,7 +65,7 @@
 	background-color: #0670ed;
 	color: #fff;
 	border: none;
-	height: 2rem;
+	padding: 0.5rem 1rem;
 	font-size: 1rem;
 	border-radius: 10px;
 }

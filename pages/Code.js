@@ -5,13 +5,10 @@ import styles from '../styles/Code.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/dist/client/router';
 import logo from '../public/logo.svg';
+
 const Code = () => {
 	const [code, setCode] = useState('');
 	const [error, setError] = useState('Submit');
-	const [name, setName] = useState('');
-	const [classNum, setClassNum] = useState('');
-	const [phone, setPhone] = useState('');
-	const [email, setEmail] = useState('');
 	const route = useRouter();
 
 	const handleClick = (e) => {
@@ -28,6 +25,29 @@ const Code = () => {
 
 	return (
 		<div className={styles.container}>
+			<Head>
+				<link
+					rel='icon'
+					type='image/png'
+					sizes='32x32'
+					href='/favicon-32x32.png'
+				/>
+				<link
+					rel='icon'
+					type='image/png'
+					sizes='16x16'
+					href='/favicon-16x16.png'
+				/>
+				<link
+					rel='apple-touch-icon'
+					sizes='180x180'
+					href='/apple-touch-icon.png'
+				/>
+				<link rel='manifest' href='/site.webmanifest' />
+				<link rel='mask-icon' href='/safari-pinned-tab.svg' color='#5bbad5' />
+				<meta name='theme-color' content='#ffffff' />
+				<title>Scoreplus.</title>
+			</Head>
 			<div className={styles.header}>
 				<div className={styles.headerContainer}>
 					<div style={{ flex: 'left' }}>

@@ -1,0 +1,237 @@
+.container {
+	padding: 0;
+	margin: 0;
+	min-height: 100vh;
+	width: 100vw;
+	font-family: 'Poppins';
+	color: #414042;
+}
+.header {
+	height: 15vh;
+	width: 100vw;
+	background-color: rgba(255, 211, 49, 1);
+}
+.headerContainer {
+	height: 15vh;
+	width: 86vw;
+	margin: auto;
+	display: flex;
+}
+.headerContainer div {
+	margin: 0;
+	padding: 0;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	font-size: 1.5rem;
+	font-family: 'Poppins';
+	list-style: none;
+}
+.headerContainer div li {
+	list-style: none;
+}
+.headerContainer div li:hover {
+	font-weight: 500;
+}
+.img {
+	display: inline-block;
+	height: 10vh;
+	width: 180px;
+	display: grid;
+	align-items: center;
+}
+.logo {
+	height: 10vh;
+	transform: scale(0.87);
+}
+
+.links {
+	display: inline;
+	flex-grow: 1;
+}
+.links ul {
+	list-style: none;
+	float: right;
+}
+.links li {
+	display: inline;
+	margin-left: 1.5rem;
+	font-size: 1.2rem;
+	font-weight: 500;
+}
+.links li a {
+	color: #414042;
+}
+.links li :hover {
+	font-weight: 700;
+}
+
+.styleBar {
+	width: 84%;
+	margin: auto;
+	height: 3rem;
+	background-color: #ffd331;
+	border-radius: 20px;
+}
+.detailsForm {
+	width: 80%;
+	margin: auto;
+}
+.detailsForm form {
+	width: 40%;
+	margin: auto;
+	margin-top: 3rem;
+}
+
+.detailsForm form div {
+	margin-bottom: 2rem;
+	height: max-content;
+}
+.detailsForm form label {
+	font-size: 1rem;
+	color: #414042;
+	margin: auto 0;
+}
+.detailsForm form input {
+	float: right;
+	width: 15rem;
+	border-radius: 5px;
+	background-color: #f6f7fa;
+	border: none;
+	border-bottom: #414042 solid 1px;
+	outline: none;
+	padding: 0.4rem 1rem;
+	height: 1.4rem;
+	margin-left: 0.3rem;
+	color: #414042;
+}
+.swicth {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	align-items: center;
+	background-color: #ffd331;
+	padding: 0.2rem;
+	height: min-content;
+	border-radius: 0.3rem;
+	width: min-content;
+	margin: auto;
+}
+.capsule {
+	display: flex;
+	padding: 0.2rem;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+	cursor: pointer;
+	border-radius: 0.3rem;
+	width: 100px;
+}
+.leftButtonBottom {
+	margin-top: 1rem;
+	padding: 0.4rem;
+	margin-left: 7vw;
+	font-weight: 400;
+	/* border:1px solid black; */
+	color: #0670ed !important;
+	font-size: 1rem;
+	cursor: pointer;
+}
+.leftButtonBottom:hover {
+	text-decoration: underline;
+}
+.leftButtonBottom a {
+	color: #0670ed !important;
+}
+.detailsForm form select {
+	float: right;
+	width: 15rem;
+	border-radius: 5px;
+	background-color: #f6f7fa;
+	border: none;
+	border-bottom: #414042 solid 1px;
+	outline: none;
+	padding: 0.4rem 1rem;
+	margin-left: 0.3rem;
+	color: #414042;
+}
+.detailsForm form button,
+.detailsForm .formCheckbox button {
+	width: 80%;
+	border-radius: 5px;
+	background-color: #0670ed;
+	border: none;
+	/*height: 1.4rem;*/
+	padding: 0.6rem 0;
+	font-size: 1rem;
+	color: white;
+	margin-left: 10%;
+	cursor: pointer;
+	margin-top: 2rem;
+}
+.detailsForm .formCheckbox {
+	width: 80%;
+	margin: auto;
+	color: #414042 !important;
+}
+.checkboxContainer {
+	background: #ffffff;
+	box-shadow: 0px 0px 20px rgba(6, 112, 237, 0.1);
+	border-radius: 7px;
+	padding: 0.5rem 1.5rem;
+}
+.checkboxContainer div p input {
+	cursor: pointer;
+}
+.detailsForm .formCheckbox button {
+	width: 40%;
+	margin-left: 30%;
+	margin-bottom: 2rem;
+	height: 2rem;
+}
+.floatingbutton {
+	width: 100%;
+	padding-top: 1rem;
+	background-image: linear-gradient(
+		to bottom,
+		rgba(256, 256, 256, 0.1),
+		rgba(256, 256, 256, 1),
+		rgba(256, 256, 256, 1),
+		rgba(256, 256, 256, 1)
+	);
+	position: fixed;
+	bottom: 0;
+	margin-bottom: 0 !important;
+	left: 0;
+	z-index: 10;
+}
+@media (max-width: 800px) {
+	.detailsForm {
+		width: 100%;
+	}
+	.detailsForm form {
+		width: 90%;
+		margin: auto;
+	}
+	.detailsForm .formCheckbox {
+		width: 95%;
+		margin: auto;
+	}
+	.detailsForm .formCheckbox .checkboxContainer div p {
+		font-size: 0.7rem;
+	}
+	.checkboxContainer {
+		margin: 0;
+		padding: 0.5rem 1.5rem;
+	}
+	.checkboxContainer div {
+		flex-direction: row !important;
+	}
+	.swicth {
+		flex-direction: row !important;
+	}
+	.mobileform {
+		margin-left: 1rem !important;
+		width: auto !important;
+	}
+}
