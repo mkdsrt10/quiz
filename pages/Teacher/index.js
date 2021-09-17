@@ -101,10 +101,13 @@ export default function Home() {
 									height={'200'}
 								/>
 								<div>
-									{state.question.options.map((opt) => {
+									{state.question.options.map((opt, index) => {
 										// eslint-disable-next-line react/jsx-key
 										return (
-											<p style={{ textAlign: 'left', paddingLeft: '1rem' }}>
+											<p
+												key={index}
+												style={{ textAlign: 'left', paddingLeft: '1rem' }}
+											>
 												<span style={{ fontWeight: '300' }}>{opt.id + 1}.</span>
 												{opt.title}
 											</p>
@@ -121,10 +124,11 @@ export default function Home() {
 									height={'200'}
 								/>
 								<div>
-									{state.question.options.map((opt) => {
+									{state.question.options.map((opt, index) => {
 										// eslint-disable-next-line react/jsx-key
 										return (
 											<p
+												key={index}
 												style={{
 													textAlign: 'left',
 													paddingLeft: '1rem',
