@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/dist/client/image';
 import logo from '../public/logo.svg';
 import quiz from '../public/teacher/quiz.svg';
+import quiz1 from '../public/teacher/quiz 1.svg';
 import { useEffect, useState } from 'react';
 const TeacherDashboard = () => {
 	const [ready, setReady] = useState(false);
@@ -48,10 +49,19 @@ const TeacherDashboard = () => {
 				<div className={classes.choices}>
 					<div className={classes.create}>
 						<div style={{ width: '100%' }}>
-							<h1 style={{ width: '100%' }}>Create a Quiz</h1>
+							<h1
+								style={{
+									width: '100%',
+									fontWeight: '500',
+									fontSize: '2.5rem',
+									textAlign: 'right',
+								}}
+							>
+								Create a Quiz
+							</h1>
 							<Link href='#'>
 								<a style={{ float: 'right' }}>
-									<button>Lets Create</button>
+									<button>Let&apos;s Create</button>
 								</a>
 							</Link>
 						</div>
@@ -59,10 +69,18 @@ const TeacherDashboard = () => {
 
 					<div className={classes.start}>
 						<div style={{ width: '100%' }}>
-							<h1>Start a Quiz</h1>
+							<h1
+								style={{
+									fontWeight: '500',
+									fontSize: '2.5rem',
+									textAlign: 'right',
+								}}
+							>
+								Start a Quiz
+							</h1>
 							<Link href='/Teacher'>
 								<a style={{ float: 'right' }}>
-									<button>Lets Start</button>
+									<button>Let&apos;s Start</button>
 								</a>
 							</Link>
 						</div>
@@ -70,11 +88,58 @@ const TeacherDashboard = () => {
 				</div>
 				<div className={classes.illustration}>
 					<div style={{ width: '100%' }}>
-						<Image src={quiz} className={classes.quizImage} />
+						<Image src={quiz1} className={classes.quizImage} />
 					</div>
 				</div>
 			</div>
-			<div className={classes.quizList}></div>
+			<div className={classes.quizList}>
+				<h1
+					style={{ textAlign: 'center', fontWeight: '500', fontSize: '3rem' }}
+				>
+					List Of Quiz
+				</h1>
+				<div>
+					<ul
+						style={{
+							listStyle: 'none',
+							padding: '0',
+						}}
+					>
+						<li
+							style={{
+								display: 'block',
+								textAlign: 'center',
+							}}
+						>
+							<h2>Quiz 1</h2>
+						</li>
+						<li
+							style={{
+								display: 'block',
+								textAlign: 'center',
+							}}
+						>
+							<h2>Quiz 2</h2>
+						</li>
+						<li
+							style={{
+								display: 'block',
+								textAlign: 'center',
+							}}
+						>
+							<h2>Quiz 3</h2>
+						</li>
+						<li
+							style={{
+								display: 'block',
+								textAlign: 'center',
+							}}
+						>
+							<h2>Quiz 4</h2>
+						</li>
+					</ul>
+				</div>
+			</div>
 		</div>
 	);
 };
