@@ -1,12 +1,5 @@
-export const nonAuthRoutes = [
-	'/',
-	'/login',
-	'/signup',
-	'/forgotpassword',
-	'/offline',
-	'/reconfirm',
-];
-export const AuthRoutes = ['/Code', '/Quiz'];
+export const nonAuthRoutes = ['/', '/Join'];
+export const AuthRoutes = ['/Code', '/Quiz', '/Teacher', '/TeacherDashboard'];
 export const BASE_BACKEND =
 	'https://aadee6nmr6.execute-api.ap-south-1.amazonaws.com/dev';
 

@@ -1,0 +1,100 @@
+.container {
+	padding: 0;
+	margin: 0;
+	min-height: 100vh;
+	font-family: 'Poppins';
+	color: #414042;
+	overflow-x: hidden;
+	overflow-x: hidden;
+}
+.header {
+	height: 15vh;
+	width: 100vw;
+	background-color: rgba(255, 211, 49, 1);
+}
+.headerContainer {
+	height: 15vh;
+	width: 86vw;
+	margin: auto;
+	display: flex;
+}
+.headerContainer div {
+	margin: 0;
+	padding: 0;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	font-size: 1.5rem;
+	font-family: 'Poppins';
+	list-style: none;
+}
+.headerContainer div li {
+	list-style: none;
+}
+.headerContainer div li:hover {
+	font-weight: 500;
+}
+.content {
+	width: 84%;
+	margin: auto;
+	display: flex;
+	flex-direction: row;
+	min-height: 85vh;
+}
+.choices,
+.illustration {
+	flex: 2;
+}
+.choices {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+.illustration {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.create,
+.start {
+	flex: 1;
+	padding: 1rem;
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+.start {
+	border-top: 1px solid #414042;
+	align-items: flex-start;
+}
+.create button,
+.start button {
+	padding: 0.6rem 1.5rem;
+	background-color: white;
+	border: 1px solid #414042;
+	color: #414042;
+	border-radius: 10px;
+}
+.create button:hover,
+.start button:hover {
+	color: white;
+	background-color: #0670ed;
+	border: 1px solid #0670ed;
+}
+
+.quizList {
+	width: 84%;
+	margin: auto;
+	min-height: 100vh;
+}
+
+@media (max-width: 800px) {
+	.content {
+		width: 80%;
+		flex-direction: column-reverse;
+		padding-top: 5rem;
+	}
+	.quizImage {
+		transform: scale(1.2);
+	}
+}
