@@ -1,3 +1,8 @@
+/* 
+yellow #ffd334  
+black #414042
+blue #0670ed 
+*/
 .container {
 	padding: 0;
 	margin: 0;
@@ -9,7 +14,8 @@
 .header {
 	height: 15vh;
 	width: 100vw;
-	background-color: rgba(255, 211, 49, 1);
+	/* background-color: rgba(255, 211, 49, 1); */
+	border-bottom-right-radius: 50px;
 }
 .headerContainer {
 	height: 15vh;
@@ -34,71 +40,65 @@
 .headerContainer div li:hover {
 	font-weight: 500;
 }
+.content {
+	height: 80vh;
+	width: 80vw;
+	margin: auto;
+	display: flex;
+	flex-direction: row;
+}
+.code,
+.svg {
+	flex: 1;
+}
+.svg {
+	flex: 2;
+}
 .code {
-	height: 85vh;
-	width: 86vw;
-	margin: auto;
-	display: grid;
-	align-content: center;
-	justify-content: center;
-}
-.codeContainer {
-	width: 30vw;
-	margin: auto;
-	height: 30vh;
-}
-.code p {
+	text-align: center;
+	display: flex;
+	align-items: center;
 	font-size: 1.5rem;
-	text-align: center;
-	font-family: 'Poppins';
-	margin: auto;
-	position: relative;
-	top: -1rem;
 }
+
 .codeContainer input {
-	outline: none;
-	border: none;
-	height: 15vh;
-	width: 30vw;
-	font-size: 3rem;
+	height: 4rem;
+	border-radius: 10px;
+	border: #414042 1px solid;
+	width: 70%;
 	text-align: center;
-	border-radius: 20px;
-	margin: auto;
-	border: 1px solid gray;
-	letter-spacing: 0.3rem;
+	font-size: 3rem;
+	outline: none;
 }
 .button {
-	width: 20vw;
-	margin: 5vh 5vw;
-	font-size: 1rem;
-	height: 2rem;
-	border: 1px solid gray;
-	border-radius: 10px;
-	font-family: 'Poppins';
-	color: white;
 	background-color: #0670ed;
+	color: white;
+	border: none;
+	border-radius: 10px;
+	margin-top: 4rem;
+	height: 3rem;
+	font-size: 1.5rem;
+	width: 50%;
 }
+.svg .image {
+	width: 100%;
+	transform: scale(1.25);
+}
+
 @media (max-width: 800px) {
-	.codeContainer {
-		width: 90vw;
-		margin: auto;
+	.code {
+		align-items: flex-start;
 	}
-	.codeContainer input {
-		width: 60vw;
-		margin-left: 15vw;
+	.svg .image {
+		transform: scale(1.3);
 	}
-	.button {
-		width: 60vw;
-		margin: 5vh 15vw;
+	.svg {
+		flex: 1;
 	}
-}
-@media (max-width: 550px) {
-	.codeContainer input {
-		width: 80vw;
-		margin-left: 7.5vw;
+	.content {
+		flex-direction: column-reverse;
 	}
 	.button {
-		width: 70vw;
-		margin: 5vh 10vw;
+		width: 70%;
 	}
 }
