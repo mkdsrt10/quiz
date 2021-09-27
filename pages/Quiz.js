@@ -13,11 +13,18 @@ const myLoader = ({ src }) => {
 };
 
 const Quiz = () => {
-	const [data, setData] = useState();
+	const [data, setData] = useState({
+		type: 'leaderboard',
+		leaders: [
+			{ name: 'Nitin', point: 100 },
+			{ name: 'Vijay', point: 200 },
+		],
+	});
 	const [ans, setAns] = useState('');
 	const [ready, setReady] = useState(false);
 	const [showVideo, setShowVideo] = useState(false);
-	const [time, setTime] = useState();
+	const [time, setTime] = useState(100);
+	const [time2, setTime2] = useState(100);
 	const [graphData, setGraphData] = useState();
 	const temp = [
 		{
@@ -27,29 +34,23 @@ const Quiz = () => {
 		},
 		{
 			type: 'question',
+			prevCorrectAns: 'null',
 			question: {
 				title: 'This is the question',
+				time: 100,
 				image: '/logo.png',
-				options: [
-					{ id: 0, title: 'Option A' },
-					{ id: 1, title: 'Option B' },
-					{ id: 2, title: 'Option C' },
-					{ id: 3, title: 'Option D' },
-				],
+				options: ['Option A', 'Option B', 'Option C', 'Option D'],
 			},
 		},
 		{
-			type: 'answer',
-			correctAns: 1,
+			type: 'question',
+			prevCorrectAns: 'Option A',
+			points: 100,
 			question: {
 				title: 'This is the question',
+				time: 100,
 				image: '/logo.png',
-				options: [
-					{ id: 0, title: 'Option A' },
-					{ id: 1, title: 'Option B' },
-					{ id: 2, title: 'Option C' },
-					{ id: 3, title: 'Option D' },
-				],
+				options: ['Option A', 'Option B', 'Option C', 'Option D'],
 			},
 		},
 		{
@@ -58,20 +59,10 @@ const Quiz = () => {
 				{ name: 'Nitin', point: 100 },
 				{ name: 'Vijay', point: 200 },
 			],
+			total: 100,
+			rank: 90,
 		},
 	];
-	const [ques, setQues] = useState([
-		{
-			id: 1,
-			ques: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Explicabo tenetur eos nesciunt, vel amet tempora hic harum officia a aperiam beatae, rerum quis eligendi culpa consequatur facere officiis, maiores corrupti.',
-			opts: {
-				a: 'a',
-				b: 'b',
-				c: 'c',
-				d: 'd',
-			},
-		},
-	]);
 
 	var opt = {
 		playerVars: {
@@ -102,6 +93,10 @@ const Quiz = () => {
 				setGraphData(chartData);
 			}
 		});
+		if (data.type == 'question') {
+			setTime2(data.question.time);
+			setTime(data.question.time);
+		}
 	}, []);
 	useEffect(() => {
 		if (data != undefined && data.type === 'question') {
@@ -110,7 +105,7 @@ const Quiz = () => {
 				let temp = setInterval(() => {
 					if (time > 0) {
 						setTime(time - 1);
-						hr.style.width = `${time}vw`;
+						hr.style.width = `${100 - time / 100}vw`;
 					} else {
 						clearInterval(temp);
 					}
@@ -195,7 +190,7 @@ const Quiz = () => {
 				<span
 					style={{
 						position: 'absolute',
-						left: `${time}vw`,
+						left: `${100 - time / 100}vw`,
 						top: '15vh',
 						transition: 'left 1.2s linear',
 						backgroundColor: '#0670ed',
@@ -234,6 +229,16 @@ const Quiz = () => {
 							>
 								Leader Board
 							</p>
+
+							<div>
+								<p style={{ fontWeight: '600', textAlign: 'center' }}>
+									Your Rank: {data.rank}
+								</p>
+								<p style={{ fontWeight: '600', textAlign: 'center' }}>
+									Total Participants:{data.total}
+								</p>
+							</div>
+
 							<Chart
 								width={'100%'}
 								height={'auto'}
@@ -242,7 +247,9 @@ const Quiz = () => {
 								data={graphData}
 								options={{
 									title: 'Top Performers',
-									chartArea: { width: `${window.innerWidth > 800 ? 80 : 60}%` },
+									chartArea: {
+										width: `${ready && window.innerWidth > 800 ? 80 : 60}%`,
+									},
 									hAxis: {
 										title: 'Points',
 										minValue: 0,
@@ -319,7 +326,7 @@ const Quiz = () => {
 											type='radio'
 											name='ques'
 											id='opt1'
-											value={data.question.options[0].title}
+											value={data.question.options[0]}
 											onChange={(e) => setAns(e.target.value)}
 										/>
 										<p
@@ -337,9 +344,7 @@ const Quiz = () => {
 												}`,
 											}}
 										>
-											<label htmlFor='opt1'>
-												{data.question.options[0].title}
-											</label>
+											<label htmlFor='opt1'>{data.question.options[0]}</label>
 										</p>
 									</div>
 									<div className={classes.option}>
@@ -347,7 +352,7 @@ const Quiz = () => {
 											type='radio'
 											name='ques'
 											id='opt2'
-											value={data.question.options[1].title}
+											value={data.question.options[1]}
 											onChange={(e) => setAns(e.target.value)}
 										/>
 										<p
@@ -365,9 +370,7 @@ const Quiz = () => {
 												}`,
 											}}
 										>
-											<label htmlFor='opt2'>
-												{data.question.options[1].title}
-											</label>
+											<label htmlFor='opt2'>{data.question.options[1]}</label>
 										</p>
 									</div>
 									<div className={classes.option}>
@@ -375,7 +378,7 @@ const Quiz = () => {
 											type='radio'
 											name='ques'
 											id='opt3'
-											value={data.question.options[2].title}
+											value={data.question.options[2]}
 											onChange={(e) => setAns(e.target.value)}
 										/>
 										<p
@@ -393,9 +396,7 @@ const Quiz = () => {
 												}`,
 											}}
 										>
-											<label htmlFor='opt3'>
-												{data.question.options[2].title}
-											</label>
+											<label htmlFor='opt3'>{data.question.options[2]}</label>
 										</p>
 									</div>
 									<div className={classes.option}>
@@ -403,7 +404,7 @@ const Quiz = () => {
 											type='radio'
 											name='ques'
 											id='opt4'
-											value={data.question.options[3].title}
+											value={data.question.options[3]}
 											onChange={(e) => setAns(e.target.value)}
 										/>
 										<p
@@ -421,9 +422,7 @@ const Quiz = () => {
 												}`,
 											}}
 										>
-											<label htmlFor='opt4'>
-												{data.question.options[3].title}
-											</label>
+											<label htmlFor='opt4'>{data.question.options[3]}</label>
 										</p>
 									</div>
 								</div>
@@ -440,9 +439,9 @@ const Quiz = () => {
 			{data == undefined && (
 				<div className={classes.question}>
 					<p style={{ textAlign: 'center' }}>Wait quiz will start soon</p>
-					<p style={{ textAlign: 'center', fontSize: '0.9rem' }}>
+					{/* <p style={{ textAlign: 'center', fontSize: '0.9rem' }}>
 						Please Join us on Youtube
-					</p>
+					</p> */}
 				</div>
 			)}
 		</div>
