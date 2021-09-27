@@ -105,7 +105,7 @@ const Quiz = () => {
 				let temp = setInterval(() => {
 					if (time > 0) {
 						setTime(time - 1);
-						hr.style.width = `${100 - time / 100}vw`;
+						hr.style.width = `${time}vw`;
 					} else {
 						clearInterval(temp);
 					}
@@ -190,7 +190,7 @@ const Quiz = () => {
 				<span
 					style={{
 						position: 'absolute',
-						left: `${100 - time / 100}vw`,
+						left: `${time}vw`,
 						top: '15vh',
 						transition: 'left 1.2s linear',
 						backgroundColor: '#0670ed',
