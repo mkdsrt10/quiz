@@ -3,6 +3,8 @@ export const AuthRoutes = ['/Code', '/Quiz', '/Teacher', '/TeacherDashboard'];
 export const BASE_BACKEND =
 	'https://aadee6nmr6.execute-api.ap-south-1.amazonaws.com/dev';
 
+export const QUIZ_BACKEND = "https://3afuz1a81e.execute-api.ap-south-1.amazonaws.com/dev"
+
 export const EMAIL_VALIDATOR =
 	/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 export const PHONE_VALIDATOR = /^\d{10}$/;

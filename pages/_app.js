@@ -5,7 +5,6 @@ import awsExports from '../components/aws-export';
 import { checkAuth } from '../functions/checkAuth';
 import { AuthRoutes } from '../functions/constants';
 import { useRouter } from 'next/router';
-import { getSambhav } from '../functions/user';
 import mixpanel from 'mixpanel-browser';
 
 mixpanel.init('e5f51cfce8207bba07b26ace2c93f72e');
@@ -15,6 +14,8 @@ function MyApp({ Component, pageProps }) {
 	const router = useRouter();
 	const [token, setToken] = useState(0);
 	const [user, setUser] = useState(null);
+	const [data, setData] = useState(null);
+	const [quizCode, setQuizCode] = useState("");
 
 	useEffect(() => {
 		mixpanel.track('Site loadup');
@@ -49,22 +50,23 @@ function MyApp({ Component, pageProps }) {
 				console.log('Redirected to Login');
 			});
 		}
-		//else if (token !== 0 && AuthRoutes.includes(router.pathname)) {
-		// 	getSambhav({ token }).then((r) => {
-		// 		r.data.then((sam) => {
-		// 			if (!sam) {
-		// 				console.log('JAIMATA', r);
-		// 				mixpanel.track('Redirected to waitlisted');
-		// 				router.replace('/').then((r) => console.log(r));
-		// 			}
-		// 		});
-		// 	});
-		//}
 	}, [token, router.pathname]);
+
+	useEffect(() => {
+		if (quizCode !== ""){
+			router.push('/Quiz').then((r) => {
+				console.log('Redirected to Quiz');
+			});
+		}
+	}, [quizCode])
 
 	return (
 		<Component
 			token={token}
+			quizCode={quizCode}
+			data={data}
+			setData={setData}
+			setQuizCode={setQuizCode}
 			setToken={setToken}
 			user={user || { class: '', name: '' }}
 			{...pageProps}

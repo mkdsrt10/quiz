@@ -6,27 +6,48 @@ import Link from 'next/link';
 import { useRouter } from 'next/dist/client/router';
 import logo from '../public/logo.svg';
 import svg from '../public/code/img.svg';
+import {joinQuiz, startQuiz} from "../functions/quiz";
 
-const Code = () => {
+const Code = ({token, setQuizCode, setData}) => {
 	const [code, setCode] = useState('');
+	const [quizMeta, setQuizMeta] = useState(null);
 	const [error, setError] = useState('Submit');
 	const [ready, setReady] = useState(false);
+	const [start, setStart] = useState(0);
+	// 0 --> No join request till now
+	// 1 --> Joined, ready to start
+	// 2 --> Start
 
 	const route = useRouter();
 	useEffect(() => {
 		setReady(true);
 	}, []);
-	const handleClick = (e) => {
+
+	const handleClick = async (e) => {
 		e.preventDefault();
-		if (code === '1234') {
-			route.push('/Quiz');
+		const {data, error} = await joinQuiz({token, id:code})
+		if (error){
+			setError(data)
 		} else {
-			setError('Invalid Code');
-			setTimeout(() => {
-				setError('Submit');
-			}, 1000);
+			setError("Start quiz");
+			setStart(1);
+			console.log(data)
+			setQuizMeta(data)
+
 		}
 	};
+
+	const startQuizFu = async (e) => {
+		e.preventDefault();
+		const {data, error} = await startQuiz({token, id:code})
+		if (error){
+			setError(data)
+		} else {
+			setStart(2);
+			setData(data)
+			setQuizCode(code)
+		}
+	}
 
 	return (
 		<div className={styles.container}>
@@ -64,7 +85,7 @@ const Code = () => {
 						<ul>
 							<li>
 								<Link href='https://www.scoreplus.live/Tracker'>
-									<a style={{ fontSize: '1rem' }}>Track Progress</a>
+									<a style={{ fontSize: '1rem' }}>Study Tracker</a>
 								</Link>
 							</li>
 						</ul>
@@ -90,32 +111,53 @@ const Code = () => {
 			</svg>
 			<div className={styles.content}>
 				<div className={styles.code}>
-					<div style={{ width: '100%' }}>
-						<p style={{ textAlign: 'center' }}>
-							Enter the code shown on the Screen
-						</p>
-						<form className={styles.codeContainer}>
-							<div style={{ width: '100%' }}>
-								<input
-									type='text'
-									name='code'
-									id='code'
-									onChange={(e) => setCode(e.target.value)}
-								/>
-							</div>
-							<button className={styles.button} onClick={(e) => handleClick(e)}>
-								{error}
-							</button>
-						</form>
-					</div>
-				</div>
-				{ready && window.innerWidth > 500 && (
-					<div className={styles.svg}>
-						<div style={{ width: '100%', height: '100%' }}>
-							<Image src={svg} className={styles.image} />
+					{
+						start === 0 &&
+						<div style={{ width: '100%' }}>
+							<p style={{ textAlign: 'center' }}>
+								Enter the code shown on the Screen
+							</p>
+							<form className={styles.codeContainer}>
+								<div style={{ width: '100%' }}>
+									<input
+										type='text'
+										name='code'
+										id='code'
+										onChange={(e) => setCode(e.target.value)}
+									/>
+								</div>
+								<button className={styles.button} onClick={(e) => handleClick(e)}>
+									{error}
+								</button>
+							</form>
 						</div>
-					</div>
-				)}
+					}
+					{
+						start === 1 && quizMeta !== null &&
+						<div style={{ width: '100%' }}>
+							<p style={{ textAlign: 'center' }}>
+								Quiz #{code}
+							</p>
+							<form className={styles.codeContainer}>
+								<div style={{ width: '100%' }}>
+									<h1>{quizMeta.title}</h1>
+									{/*{quizMeta.image !== "" && <Image src={quizMeta.image} height={100} width={100}/>}*/}
+									<h3>{quizMeta.total_questions}</h3>
+								</div>
+								<button className={styles.button} onClick={(e) => startQuizFu(e)}>
+									{error}
+								</button>
+							</form>
+						</div>
+					}
+				</div>
+				{/*{ready && window.innerWidth > 500 && (*/}
+				{/*	<div className={styles.svg}>*/}
+				{/*		<div style={{ width: '100%', height: '100%' }}>*/}
+				{/*			<Image src={svg} className={styles.image} />*/}
+				{/*		</div>*/}
+				{/*	</div>*/}
+				{/*)}*/}
 			</div>
 		</div>
 	);

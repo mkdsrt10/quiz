@@ -178,7 +178,7 @@ export default function Home({ token, setToken }) {
 						<ul>
 							<li>
 								<Link href='https://www.scoreplus.live/Tracker'>
-									<a style={{ fontSize: '1rem' }}>Track Progress</a>
+									<a style={{ fontSize: '1rem' }}>Study Track</a>
 								</Link>
 							</li>
 						</ul>

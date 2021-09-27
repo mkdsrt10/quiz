@@ -1,103 +1,31 @@
 import Link from 'next/dist/client/link';
 import { useEffect, useState } from 'react';
 import classes from '../styles/Quiz.module.css';
-import YouTube from 'react-youtube';
 import Image from 'next/dist/client/image';
-import Pusher from 'pusher-js';
 import logo from '../public/logo.svg';
 import Chart from 'react-google-charts';
 import Head from 'next/dist/shared/lib/head';
+import {postAnswers} from "../functions/quiz";
 
 const myLoader = ({ src }) => {
 	return `${src}`;
 };
 
-const Quiz = () => {
-	const [data, setData] = useState({
-		type: 'leaderboard',
-		leaders: [
-			{ name: 'Nitin', point: 100 },
-			{ name: 'Vijay', point: 200 },
-		],
-	});
+const Quiz = ({quizCode, token, data, setData}) => {
 	const [ans, setAns] = useState('');
 	const [ready, setReady] = useState(false);
-	const [showVideo, setShowVideo] = useState(false);
-	const [time, setTime] = useState(100);
-	const [time2, setTime2] = useState(100);
+	const [time, setTime] = useState(60);
 	const [graphData, setGraphData] = useState();
-	const temp = [
-		{
-			type: 'text',
-			title: 'This is a sample text',
-			image: '../public/logo.svg',
-		},
-		{
-			type: 'question',
-			prevCorrectAns: 'null',
-			question: {
-				title: 'This is the question',
-				time: 100,
-				image: '/logo.png',
-				options: ['Option A', 'Option B', 'Option C', 'Option D'],
-			},
-		},
-		{
-			type: 'question',
-			prevCorrectAns: 'Option A',
-			points: 100,
-			question: {
-				title: 'This is the question',
-				time: 100,
-				image: '/logo.png',
-				options: ['Option A', 'Option B', 'Option C', 'Option D'],
-			},
-		},
-		{
-			type: 'leaderboard',
-			leaders: [
-				{ name: 'Nitin', point: 100 },
-				{ name: 'Vijay', point: 200 },
-			],
-			total: 100,
-			rank: 90,
-		},
-	];
 
-	var opt = {
-		playerVars: {
-			autoplay: 1,
-		},
-	};
 	useEffect(() => {
-		setTime(100);
-		setReady(true);
-		const chartData = [['Names', 'Points']];
+		if (data !== null)
+			setTime(data.question.duration)
+	}, [data]);
 
-		let pusher = new Pusher('a8db60a268d186196705', {
-			cluster: 'ap2',
-		});
+	useEffect(() => {
+		data !== null && setReady(true)
+	}, [data])
 
-		let channel = pusher.subscribe('my-channel');
-		channel.bind('state', function (data) {
-			setData(data);
-			console.log(data);
-			if (data.type == 'leaderboard') {
-				data.leaders.forEach((item) => {
-					const temp = [];
-					temp.push(item.name);
-					temp.push(item.point);
-					chartData.push(temp);
-				});
-				console.log(chartData);
-				setGraphData(chartData);
-			}
-		});
-		if (data.type == 'question') {
-			setTime2(data.question.time);
-			setTime(data.question.time);
-		}
-	}, []);
 	useEffect(() => {
 		if (data != undefined && data.type === 'question') {
 			var hr = document.getElementById('timeLine');
@@ -105,7 +33,7 @@ const Quiz = () => {
 				let temp = setInterval(() => {
 					if (time > 0) {
 						setTime(time - 1);
-						hr.style.width = `${time}vw`;
+						hr.style.width = `${time*100/data.question.duration}vw`;
 					} else {
 						clearInterval(temp);
 					}
@@ -116,17 +44,12 @@ const Quiz = () => {
 		}
 	});
 
-	// if (ready) {
-	// 	var player = document.getElementById('liveVideoContainer');
-	// 	if (showVideo) {
-	// 		player.style.flex = 1;
-	// 	} else {
-	// 		player.style.flex = 0;
-	// 	}
-	// }
-
-	const handleClick = (e) => {
+	const handleClick = async (e) => {
 		e.preventDefault();
+		console.log(data)
+		const res = await postAnswers({token, id: quizCode, response: {question_no: data.question.question_no, response: ans}})
+		setData(res.data)
+		setAns("")
 	};
 
 	return (
@@ -165,7 +88,7 @@ const Quiz = () => {
 						<ul>
 							<li>
 								<Link href='https://www.scoreplus.live/Tracker'>
-									<a style={{ fontSize: '1rem' }}>Track Progress</a>
+									<a style={{ fontSize: '1rem' }}>Study Tracker</a>
 								</Link>
 							</li>
 						</ul>
@@ -180,7 +103,7 @@ const Quiz = () => {
 						height: '4px',
 						border: 'none',
 						background: '#0670ed',
-						transition: 'width 1.2s linear',
+						transition: 'width 1.2s linear, color 1.2s linear',
 						borderRadius: '2px',
 						marginBottom: 0,
 					}}
@@ -190,7 +113,7 @@ const Quiz = () => {
 				<span
 					style={{
 						position: 'absolute',
-						left: `${time}vw`,
+						left: `${time*100/data.question.duration}vw`,
 						top: '15vh',
 						transition: 'left 1.2s linear',
 						backgroundColor: '#0670ed',
@@ -439,9 +362,6 @@ const Quiz = () => {
 			{data == undefined && (
 				<div className={classes.question}>
 					<p style={{ textAlign: 'center' }}>Wait quiz will start soon</p>
-					{/* <p style={{ textAlign: 'center', fontSize: '0.9rem' }}>
-						Please Join us on Youtube
-					</p> */}
 				</div>
 			)}
 		</div>
