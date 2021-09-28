@@ -1,5 +1,5 @@
 .container {
-	/* width: 100vw; */
+	max-width: 100vw;
 	color: #414042;
 	overflow-x: hidden !important;
 }
@@ -34,7 +34,7 @@
 	margin: auto;
 	margin-top: 1rem;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	/* height: 50vh; */
 	/* border: 1px solid black; */
 }

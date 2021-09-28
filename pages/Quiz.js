@@ -5,26 +5,25 @@ import Image from 'next/dist/client/image';
 import logo from '../public/logo.svg';
 import Chart from 'react-google-charts';
 import Head from 'next/dist/shared/lib/head';
-import {postAnswers} from "../functions/quiz";
+import { postAnswers } from '../functions/quiz';
 
 const myLoader = ({ src }) => {
 	return `${src}`;
 };
 
-const Quiz = ({quizCode, token, data, setData}) => {
+const Quiz = ({ quizCode, token, data, setData }) => {
 	const [ans, setAns] = useState('');
 	const [ready, setReady] = useState(false);
 	const [time, setTime] = useState(60);
 	const [graphData, setGraphData] = useState();
 
 	useEffect(() => {
-		if (data !== null)
-			setTime(data.question.duration)
+		if (data !== null) setTime(data.question.duration);
 	}, [data]);
 
 	useEffect(() => {
-		data !== null && setReady(true)
-	}, [data])
+		data !== null && setReady(true);
+	}, [data]);
 
 	useEffect(() => {
 		if (data != undefined && data.type === 'question') {
@@ -33,7 +32,7 @@ const Quiz = ({quizCode, token, data, setData}) => {
 				let temp = setInterval(() => {
 					if (time > 0) {
 						setTime(time - 1);
-						hr.style.width = `${time*100/data.question.duration}vw`;
+						hr.style.width = `${(time * 100) / data.question.duration}vw`;
 					} else {
 						clearInterval(temp);
 					}
@@ -46,10 +45,19 @@ const Quiz = ({quizCode, token, data, setData}) => {
 
 	const handleClick = async (e) => {
 		e.preventDefault();
-		console.log(data)
-		const res = await postAnswers({token, id: quizCode, response: {question_no: data.question.question_no, response: ans}})
-		setData(res.data)
-		setAns("")
+		console.log(data);
+
+		var radio = document.querySelector('input[type=radio]:checked');
+		console.log(radio);
+		if (radio) radio.checked = false;
+
+		const res = await postAnswers({
+			token,
+			id: quizCode,
+			response: { question_no: data.question.question_no, response: ans },
+		});
+		setData(res.data);
+		setAns('');
 	};
 
 	return (
@@ -113,7 +121,7 @@ const Quiz = ({quizCode, token, data, setData}) => {
 				<span
 					style={{
 						position: 'absolute',
-						left: `${time*100/data.question.duration}vw`,
+						left: `${(time * 100) / data.question.duration}vw`,
 						top: '15vh',
 						transition: 'left 1.2s linear',
 						backgroundColor: '#0670ed',
@@ -131,6 +139,10 @@ const Quiz = ({quizCode, token, data, setData}) => {
 			)}
 			{data != undefined && (
 				<div className={classes.board}>
+					<p style={{ textAlign: 'end', fontSize: '1.2rem' }}>
+						Your Points:{' '}
+						<span style={{ fontWeight: '600' }}>{data.question.points}</span>
+					</p>
 					{/* <div className={classes.playerCont} id='liveVideoContainer'>
 					{showVideo && (
 						<YouTube
@@ -237,8 +249,8 @@ const Quiz = ({quizCode, token, data, setData}) => {
 									</div>
 									<div style={{ textAlign: 'center' }}>
 										<Image
-											src='#'
-											loader={data.question.image}
+											src={data.question.image}
+											loader={myLoader}
 											height='200'
 											width='300'
 											unoptimized
