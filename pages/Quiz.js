@@ -152,7 +152,7 @@ const Quiz = ({ quizCode, token, data, setData }) => {
 			{loading && (
 				<div className={classes.loading}>
 					<div className={classes.loadingLogo}>
-						<Image src={loading} />
+						<Image src={loading} height={192} width={192} />
 					</div>
 				</div>
 			)}
