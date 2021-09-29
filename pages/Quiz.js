@@ -6,6 +6,7 @@ import logo from '../public/logo.svg';
 import Chart from 'react-google-charts';
 import Head from 'next/dist/shared/lib/head';
 import { postAnswers } from '../functions/quiz';
+import loading from '../public/android-chrome-512x512.png';
 
 const myLoader = ({ src }) => {
 	return `${src}`;
@@ -16,6 +17,7 @@ const Quiz = ({ quizCode, token, data, setData }) => {
 	const [ready, setReady] = useState(false);
 	const [time, setTime] = useState(60);
 	const [graphData, setGraphData] = useState();
+	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
 		if (data !== null) setTime(data.question.duration);
@@ -34,6 +36,7 @@ const Quiz = ({ quizCode, token, data, setData }) => {
 						setTime(time - 1);
 						hr.style.width = `${(time * 100) / data.question.duration}vw`;
 					} else {
+						handleClick(e);
 						clearInterval(temp);
 					}
 				}, 1000);
@@ -45,8 +48,10 @@ const Quiz = ({ quizCode, token, data, setData }) => {
 
 	const handleClick = async (e) => {
 		e.preventDefault();
+		setLoading(true);
 		console.log(data);
 
+		//unchecking options
 		var radio = document.querySelector('input[type=radio]:checked');
 		console.log(radio);
 		if (radio) radio.checked = false;
@@ -57,6 +62,12 @@ const Quiz = ({ quizCode, token, data, setData }) => {
 			response: { question_no: data.question.question_no, response: ans },
 		});
 		setData(res.data);
+
+		//loading animation
+		setTimeout(() => {
+			setLoading(false);
+		}, 500);
+
 		setAns('');
 	};
 
@@ -103,7 +114,7 @@ const Quiz = ({ quizCode, token, data, setData }) => {
 					</div>
 				</div>
 			</div>
-			{data != undefined && data.type === 'question' && (
+			{!loading && data != undefined && data.type === 'question' && (
 				<hr
 					id='timeLine'
 					style={{
@@ -117,7 +128,7 @@ const Quiz = ({ quizCode, token, data, setData }) => {
 					}}
 				/>
 			)}
-			{data != undefined && data.type === 'question' && (
+			{!loading && data != undefined && data.type === 'question' && (
 				<span
 					style={{
 						position: 'absolute',
@@ -137,7 +148,16 @@ const Quiz = ({ quizCode, token, data, setData }) => {
 					{time}sec
 				</span>
 			)}
-			{data != undefined && (
+
+			{loading && (
+				<div className={classes.loading}>
+					<div className={classes.loadingLogo}>
+						<Image src={loading} />
+					</div>
+				</div>
+			)}
+
+			{!loading && data != undefined && (
 				<div className={classes.board}>
 					<p style={{ textAlign: 'end', fontSize: '1.2rem' }}>
 						Your Points:{' '}
@@ -366,7 +386,7 @@ const Quiz = ({ quizCode, token, data, setData }) => {
 					)}
 				</div>
 			)}
-			{data != undefined && data.type === 'question' && (
+			{!loading && data != undefined && data.type === 'question' && (
 				<button className={classes.button} onClick={(e) => handleClick(e)}>
 					Submit
 				</button>

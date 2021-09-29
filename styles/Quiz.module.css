@@ -126,6 +126,24 @@
 	margin: auto;
 	margin-bottom: 3rem;
 }
+.loadingLogo {
+	animation: fade 0.3s linear infinite;
+}
+
+@keyframes fade {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0.4;
+	}
+}
+
+.loading {
+	display: grid;
+	align-items: center;
+	justify-content: center;
+}
 
 @media (max-width: 800px) {
 	.board {
